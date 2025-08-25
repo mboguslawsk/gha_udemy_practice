@@ -9,7 +9,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: RUn lint-script
-        run: eslint --ext .jsx --fix src
+        run: npm run lint
   test:
     needs: lint
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run test
-        run: vitest run
+        run: npm run test
   deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -29,4 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: deploy/build
-        run: vite build
+        run: npm run build
+      - name: end
+        run: echo "Deploy ..."
+  
