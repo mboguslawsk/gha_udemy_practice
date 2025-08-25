@@ -29,3 +29,10 @@ jobs:
         run: npm run build
       - name: Deploy
         run: echo "Deploying ..."
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Just print
+        run: echo "Verifying ..."
+        
