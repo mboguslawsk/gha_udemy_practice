@@ -1,0 +1,30 @@
+name: First Workflow
+on: push
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v5
+      - name: Install dependencies
+        run: npm ci
+      - name: RUn lint-script
+        run: eslint --ext .jsx --fix src
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v5
+      - name: Install dependencies
+        run: npm ci
+      - name: Run test
+        run: vitest run
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v5
+      - name: Install dependencies
+        run: npm ci
+      - name: deploy/build
+        run: vite build
