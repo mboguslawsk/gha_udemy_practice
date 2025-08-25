@@ -11,6 +11,7 @@ jobs:
       - name: RUn lint-script
         run: eslint --ext .jsx --fix src
   test:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -20,6 +21,7 @@ jobs:
       - name: Run test
         run: vitest run
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
