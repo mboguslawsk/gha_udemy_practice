@@ -18,6 +18,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      filename-js: ${{ steps.js-filename.outputs.myvar }}
     steps:
       - name: Get code
         uses: actions/checkout@v5
@@ -25,6 +27,9 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: Publish JS filename
+        id: js-filename
+        run: find dist/assets/*.js -type f -execdir echo 'myvar={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
