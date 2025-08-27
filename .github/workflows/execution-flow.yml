@@ -17,4 +17,4 @@ jobs:
     needs: build
     steps:
       - name: show me output variable
-        run: echo "${{ jobs.build.outputs.my_var }}"
+        run: echo "${{ needs.build.outputs.my_var }}"
