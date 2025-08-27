@@ -13,8 +13,9 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       artifact_name: dist-FILE
-  show:
+  showny:
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: show me output variable
         run: echo "${{ needs.build.outputs.my_var }}"
