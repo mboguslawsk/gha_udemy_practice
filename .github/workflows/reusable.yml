@@ -26,5 +26,5 @@ jobs:
       - name: Prepare output
         id: prepared_output
         run: |
-          temp=$(find src/test/*.js -type f -printf '%f ')
+          temp=$( ls )
           echo "just_var=${temp}" >> $GITHUB_OUTPUT
