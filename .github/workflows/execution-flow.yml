@@ -1,73 +1,20 @@
-name: Website Deployment
-on:
-  push:
-    branches:
-      - main
+name: My Normal Workflow
+on: [ push, workflow_dispatch ]
 jobs:
-  lint:
-    uses: ./.github/workflows/reusable.yml
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Get code
-        uses: actions/checkout@v4
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: npm ci
-      - name: Test code
-        id: test-report
-        run: npm run test
-      - name: Upload test report
-        if: failure() && ${{ steps.test-report.outcome }} == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report
-          path: test.json
+      - name: First step
+        run: echo "First step"
+      - name: Second step
+        run: echo "Second step"
   build:
     needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v4
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: npm ci
-      - name: Build website
-        id: build-website
-        run: npm run build
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-files
-          path: dist
-  deploy:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      artifact_name: dist-FILE
+  show:
     needs: build
-    runs-on: ubuntu-latest
     steps:
-      - name: Get build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-files
-      - name: Output contents
-        run: ls
-      - name: Deploy
-        run: echo "Deploying..."
-  report:
-    needs: [deploy, lint]
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: reporting
-        run: |
-          echo "Something went wrong."
-          echo "${{ toJSON(github) }}"
+      - name: show me output variable
+        run: echo "${{ jobs.build.outputs.my_var }}"

@@ -1,8 +1,26 @@
 name: Reusable workflow
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      artifact_name:
+        description: This is my description for the input 'artifact_name'
+        type: string
+        required: true
+        default: dist
+    outputs:
+      my_var:
+        description: This is output of my reusable workflow - my_var variable
+        value: ${{ jobs.deploy_reuse.outputs.my_out }}
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  deploy_reuse:
+    runs-on: ubuntu_latest
+    outputs:
+      my_out: ${{ steps.prepared_output.outputs.just_var }}
     steps:
-      - name: just print
-        run: echo "Good to go"
+      - name: First Reusable step
+        run: |
+          echo "Reusable step 1"
+          echo "End of this step"
+      - name: Prepare output
+        id: prepared_output
+        run: find src/test/*.js -type f -execdir echo 'just_var={}' >> $GITHUB_OUTPUT
