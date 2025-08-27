@@ -25,4 +25,6 @@ jobs:
         run: echo "My input is ${{ inputs.artifact_name }}"
       - name: Prepare output
         id: prepared_output
-        run: find src/test/*.js -type f -execdir echo 'just_var={}' >> $GITHUB_OUTPUT
+        run: |
+          temp=$( find src/test/*.js -type f )
+          echo "just_var=${temp}" >> $GITHUB_OUTPUT
